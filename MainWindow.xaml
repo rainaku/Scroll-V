@@ -1,0 +1,237 @@
+﻿<Window x:Class="SmoothScroll.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:tb="http://www.hardcodet.net/taskbar"
+        xmlns:local="clr-namespace:SmoothScroll"
+        Title="SmoothScroll" 
+        Height="580" Width="380"
+        WindowStyle="None"
+        AllowsTransparency="True"
+        Background="Transparent"
+        ResizeMode="NoResize"
+        ShowInTaskbar="False"
+        Visibility="Hidden"
+        WindowStartupLocation="CenterScreen">
+
+    <Window.Resources>
+        <Storyboard x:Key="FadeIn">
+            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25">
+                <DoubleAnimation.EasingFunction>
+                    <CubicEase EasingMode="EaseOut"/>
+                </DoubleAnimation.EasingFunction>
+            </DoubleAnimation>
+        </Storyboard>
+    </Window.Resources>
+
+    <Grid>
+        <!-- System Tray Icon -->
+        <tb:TaskbarIcon x:Name="TrayIcon"
+                        ToolTipText="SmoothScroll"
+                        TrayMouseDoubleClick="TrayIcon_TrayMouseDoubleClick">
+            <tb:TaskbarIcon.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Open" Click="TrayOpen_Click"/>
+                    <MenuItem Header="Toggle" Click="TrayToggle_Click"/>
+                    <Separator/>
+                    <MenuItem Header="Exit" Click="TrayExit_Click"/>
+                </ContextMenu>
+            </tb:TaskbarIcon.ContextMenu>
+        </tb:TaskbarIcon>
+
+        <!-- Main Glass Container -->
+        <Border CornerRadius="24" Margin="10">
+            <Border.Effect>
+                <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="0" Opacity="0.4"/>
+            </Border.Effect>
+            <Border.Background>
+                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
+                    <GradientStop Color="#1a1a2e" Offset="0"/>
+                    <GradientStop Color="#16213e" Offset="0.5"/>
+                    <GradientStop Color="#0f0f23" Offset="1"/>
+                </LinearGradientBrush>
+            </Border.Background>
+
+            <Grid>
+                <!-- Subtle Glass Overlay -->
+                <Border CornerRadius="24" Opacity="0.05">
+                    <Border.Background>
+                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                            <GradientStop Color="White" Offset="0"/>
+                            <GradientStop Color="Transparent" Offset="0.5"/>
+                        </LinearGradientBrush>
+                    </Border.Background>
+                </Border>
+
+                <DockPanel>
+                    <!-- Header -->
+                    <Border DockPanel.Dock="Top" Padding="24,16" 
+                            MouseLeftButtonDown="Header_MouseLeftButtonDown"
+                            Background="Transparent" Cursor="Hand">
+                        <Grid>
+                            <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
+                                <!-- Status Dot -->
+                                <Ellipse x:Name="StatusIndicator" Width="10" Height="10" 
+                                         Fill="#34D399" Margin="0,0,10,0">
+                                    <Ellipse.Effect>
+                                        <DropShadowEffect Color="#34D399" BlurRadius="8" ShadowDepth="0" Opacity="0.6"/>
+                                    </Ellipse.Effect>
+                                </Ellipse>
+                                <TextBlock Text="SmoothScroll" FontSize="16" FontWeight="SemiBold" 
+                                           Foreground="White" VerticalAlignment="Center"/>
+                            </StackPanel>
+
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                                <Button x:Name="MinimizeButton" Content="─" 
+                                        Width="32" Height="32" FontSize="12"
+                                        Background="Transparent" Foreground="#808080"
+                                        BorderThickness="0" Cursor="Hand"
+                                        Click="MinimizeButton_Click"/>
+                                <Button x:Name="CloseButton" Content="✕" 
+                                        Width="32" Height="32" FontSize="11"
+                                        Background="Transparent" Foreground="#808080"
+                                        BorderThickness="0" Cursor="Hand"
+                                        Click="CloseButton_Click"/>
+                            </StackPanel>
+                        </Grid>
+                    </Border>
+
+                    <!-- Content -->
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,0,24,24">
+                        <StackPanel>
+                            
+                            <!-- Status Card -->
+                            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,16">
+                                <Grid>
+                                    <StackPanel>
+                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
+                                            <TextBlock x:Name="StatusText" Text="Running" 
+                                                       FontSize="18" FontWeight="SemiBold" Foreground="White"/>
+                                        </StackPanel>
+                                        <TextBlock x:Name="StatusDescription" 
+                                                   Text="SmoothScroll is active" 
+                                                   FontSize="12" Foreground="#808080"/>
+                                    </StackPanel>
+                                    
+                                    <Button x:Name="ToggleButton" Content="Pause" 
+                                            Style="{StaticResource GlassButton}"
+                                            HorizontalAlignment="Right" VerticalAlignment="Center"
+                                            Width="80" Padding="0,8"
+                                            Click="ToggleButton_Click"/>
+                                </Grid>
+                            </Border>
+
+                            <!-- Quick Settings -->
+                            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="Quick Settings" FontSize="13" FontWeight="Medium" 
+                                               Foreground="#808080" Margin="0,0,0,16"/>
+                                    
+                                    <!-- Enable -->
+                                    <Grid Margin="0,0,0,12">
+                                        <TextBlock Text="Enable" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+                                        <CheckBox x:Name="EnableToggle" Style="{StaticResource GlassToggle}" 
+                                                  HorizontalAlignment="Right" IsChecked="True"
+                                                  Checked="EnableToggle_Changed" Unchecked="EnableToggle_Changed"/>
+                                    </Grid>
+                                    
+                                    <!-- Start with Windows -->
+                                    <Grid Margin="0,0,0,12">
+                                        <TextBlock Text="Start with Windows" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+                                        <CheckBox x:Name="StartupToggle" Style="{StaticResource GlassToggle}" 
+                                                  HorizontalAlignment="Right"
+                                                  Checked="StartupToggle_Changed" Unchecked="StartupToggle_Changed"/>
+                                    </Grid>
+                                    
+                                    <!-- Acceleration -->
+                                    <Grid>
+                                        <TextBlock Text="Scroll Acceleration" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+                                        <CheckBox x:Name="AccelerationToggle" Style="{StaticResource GlassToggle}" 
+                                                  HorizontalAlignment="Right" IsChecked="True"
+                                                  Checked="AccelerationToggle_Changed" Unchecked="AccelerationToggle_Changed"/>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Scroll Settings -->
+                            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,16">
+                                <StackPanel>
+                                    <TextBlock Text="Scroll Settings" FontSize="13" FontWeight="Medium" 
+                                               Foreground="#808080" Margin="0,0,0,16"/>
+                                    
+                                    <!-- Smoothness -->
+                                    <StackPanel Margin="0,0,0,16">
+                                        <Grid Margin="0,0,0,8">
+                                            <TextBlock Text="Smoothness" FontSize="13" Foreground="White"/>
+                                            <TextBlock x:Name="SmoothnessValue" Text="Smooth" 
+                                                       FontSize="12" Foreground="#8B5CF6" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Slider x:Name="SmoothnessSlider" Minimum="5" Maximum="30" Value="12"
+                                                Height="20" ValueChanged="SmoothnessSlider_ValueChanged"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Speed -->
+                                    <StackPanel Margin="0,0,0,16">
+                                        <Grid Margin="0,0,0,8">
+                                            <TextBlock Text="Scroll Speed" FontSize="13" Foreground="White"/>
+                                            <TextBlock x:Name="SpeedValue" Text="1.5x" 
+                                                       FontSize="12" Foreground="#8B5CF6" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Slider x:Name="SpeedSlider" Minimum="50" Maximum="300" Value="150"
+                                                Height="20" ValueChanged="SpeedSlider_ValueChanged"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Friction -->
+                                    <StackPanel Margin="0,0,0,16">
+                                        <Grid Margin="0,0,0,8">
+                                            <TextBlock Text="Momentum" FontSize="13" Foreground="White"/>
+                                            <TextBlock x:Name="FrictionValue" Text="Medium" 
+                                                       FontSize="12" Foreground="#8B5CF6" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Slider x:Name="FrictionSlider" Minimum="80" Maximum="98" Value="92"
+                                                Height="20" ValueChanged="FrictionSlider_ValueChanged"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Easing -->
+                                    <Grid>
+                                        <TextBlock Text="Animation" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="EasingComboBox" Width="130" HorizontalAlignment="Right"
+                                                  Background="#20FFFFFF" Foreground="White" BorderThickness="0"
+                                                  FontSize="12" Padding="10,6"
+                                                  SelectionChanged="EasingComboBox_SelectionChanged">
+                                            <ComboBoxItem Content="Ease Out Quad" Tag="EaseOutQuad" IsSelected="True"/>
+                                            <ComboBoxItem Content="Ease Out Cubic" Tag="EaseOutCubic"/>
+                                            <ComboBoxItem Content="Linear" Tag="Linear"/>
+                                            <ComboBoxItem Content="Ease Out Expo" Tag="EaseOutExpo"/>
+                                            <ComboBoxItem Content="Elastic" Tag="EaseOutElastic"/>
+                                        </ComboBox>
+                                    </Grid>
+                                </StackPanel>
+                            </Border>
+
+                            <!-- Excluded Apps -->
+                            <Border Style="{StaticResource GlassCard}">
+                                <Grid>
+                                    <StackPanel>
+                                        <TextBlock Text="Excluded Apps" FontSize="13" FontWeight="Medium" 
+                                                   Foreground="#808080"/>
+                                        <TextBlock x:Name="ExcludedAppsCount" Text="0 apps excluded" 
+                                                   FontSize="11" Foreground="#505050" Margin="0,4,0,0"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Button to open running apps selector -->
+                                    <Button x:Name="BrowseAppsButton" Content="⚙ Manage" 
+                                            ToolTip="Select apps to exclude"
+                                            Style="{StaticResource GlassButtonSecondary}"
+                                            HorizontalAlignment="Right" VerticalAlignment="Center"
+                                            Padding="12,6" FontSize="11"
+                                            Click="BrowseAppsButton_Click"/>
+                                </Grid>
+                            </Border>
+
+                        </StackPanel>
+                    </ScrollViewer>
+                </DockPanel>
+            </Grid>
+        </Border>
+    </Grid>
+</Window>
