@@ -1,8 +1,34 @@
-# 🖱️ SmoothScroll
+<p align="center">
+  <img src="Assets/icon.ico" width="128" height="128" alt="SmoothScroll Logo">
+</p>
 
-**Buttery smooth scrolling for all Windows applications**
+<h1 align="center">SmoothScroll</h1>
 
-![SmoothScroll Banner](https://img.shields.io/badge/version-1.0.0-blue) ![Windows](https://img.shields.io/badge/platform-Windows-lightgrey) ![.NET 8](https://img.shields.io/badge/.NET-8.0-purple)
+<p align="center">
+  <b>Buttery smooth scrolling for all Windows applications</b>
+</p>
+
+<p align="center">
+  <a href="https://github.com/rainaku/Smooth-Scroll/releases">
+    <img src="https://img.shields.io/github/v/release/rainaku/Smooth-Scroll?style=for-the-badge&color=8B5CF6&logo=github" alt="Latest Release">
+  </a>
+  <img src="https://img.shields.io/badge/platform-Windows-lightgrey?style=for-the-badge&logo=windows" alt="Platform">
+  <img src="https://img.shields.io/badge/.NET-8.0-purple?style=for-the-badge&logo=dotnet" alt="Framework">
+  <a href="LICENSE">
+    <img src="https://img.shields.io/github/license/rainaku/Smooth-Scroll?style=for-the-badge" alt="License">
+  </a>
+</p>
+
+<p align="center">
+  SmoothScroll brings a "buttery smooth" scrolling experience to all Windows applications, reducing hand fatigue and enhancing the overall aesthetics of your PC experience.
+</p>
+
+<p align="center">
+  💖 This project is entirely <b>non-profit</b> and <b>free</b>. <br>
+  If you'd like to support my work, you can donate at my PayPal page: <a href="paypal.me/PhuocLe678"><b>Donate</b></a>
+</p>
+
+---
 
 ## ✨ Features
 
