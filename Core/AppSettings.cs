@@ -1,7 +1,8 @@
-using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace ScrollV.Core
 {
@@ -46,6 +47,12 @@ namespace ScrollV.Core
             "illustrator"
         };
 
+        private static readonly JsonSerializerOptions JsonOptions = new()
+        {
+            WriteIndented = true,
+            PropertyNameCaseInsensitive = true
+        };
+
         public static AppSettings Load()
         {
             try
@@ -53,7 +60,7 @@ namespace ScrollV.Core
                 if (File.Exists(SettingsPath))
                 {
                     string json = File.ReadAllText(SettingsPath);
-                    return JsonConvert.DeserializeObject<AppSettings>(json) ?? new AppSettings();
+                    return JsonSerializer.Deserialize<AppSettings>(json, JsonOptions) ?? new AppSettings();
                 }
             }
             catch (Exception ex)
@@ -74,7 +81,7 @@ namespace ScrollV.Core
                     Directory.CreateDirectory(directory);
                 }
 
-                string json = JsonConvert.SerializeObject(this, Formatting.Indented);
+                string json = JsonSerializer.Serialize(this, JsonOptions);
                 File.WriteAllText(SettingsPath, json);
             }
             catch (Exception ex)

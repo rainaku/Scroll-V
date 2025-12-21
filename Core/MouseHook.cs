@@ -48,6 +48,17 @@ namespace ScrollV.Core
         [DllImport("user32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr CallNextHookEx(IntPtr hhk, int nCode, IntPtr wParam, IntPtr lParam);
 
+        [DllImport("kernel32.dll", SetLastError = true, CharSet = CharSet.Auto)]
+        private static extern bool QueryFullProcessImageName(IntPtr hProcess, int dwFlags, System.Text.StringBuilder lpExeName, ref int lpdwSize);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern IntPtr OpenProcess(uint dwDesiredAccess, bool bInheritHandle, uint dwProcessId);
+
+        [DllImport("kernel32.dll", SetLastError = true)]
+        private static extern bool CloseHandle(IntPtr hObject);
+
+        private const uint PROCESS_QUERY_LIMITED_INFORMATION = 0x1000;
+
         [DllImport("kernel32.dll", CharSet = CharSet.Auto, SetLastError = true)]
         private static extern IntPtr GetModuleHandle(string lpModuleName);
 
@@ -190,6 +201,8 @@ namespace ScrollV.Core
 
         private static string GetProcessNameCached(uint processId)
         {
+            if (processId == 0) return "Idle";
+
             // Check cache first
             if (_processCache.TryGetValue(processId, out var cached))
             {
@@ -199,17 +212,8 @@ namespace ScrollV.Core
                 }
             }
 
-            // Look up process name
-            string name = "Unknown";
-            try
-            {
-                using var process = Process.GetProcessById((int)processId);
-                name = process.ProcessName;
-            }
-            catch
-            {
-                // Process may have exited
-            }
+            // Fast Win32 lookup instead of Process.GetProcessById
+            string name = GetProcessNameWin32(processId);
 
             // Cache the result
             _processCache[processId] = (name, DateTime.Now);
@@ -221,6 +225,29 @@ namespace ScrollV.Core
             }
 
             return name;
+        }
+
+        private static string GetProcessNameWin32(uint processId)
+        {
+            IntPtr hProcess = OpenProcess(PROCESS_QUERY_LIMITED_INFORMATION, false, processId);
+            if (hProcess != IntPtr.Zero)
+            {
+                try
+                {
+                    var sb = new System.Text.StringBuilder(1024);
+                    int size = sb.Capacity;
+                    if (QueryFullProcessImageName(hProcess, 0, sb, ref size))
+                    {
+                        string fullPath = sb.ToString();
+                        return System.IO.Path.GetFileNameWithoutExtension(fullPath);
+                    }
+                }
+                finally
+                {
+                    CloseHandle(hProcess);
+                }
+            }
+            return "Unknown";
         }
 
         private static void CleanCache()
