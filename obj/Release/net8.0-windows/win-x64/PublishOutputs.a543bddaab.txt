@@ -1,6 +1,0 @@
-D:\CodeShii\Smooth-Scroll\publish\SmoothScroll.exe
-D:\CodeShii\Smooth-Scroll\publish\SmoothScroll.deps.json
-D:\CodeShii\Smooth-Scroll\publish\SmoothScroll.runtimeconfig.json
-D:\CodeShii\Smooth-Scroll\publish\Hardcodet.NotifyIcon.Wpf.dll
-D:\CodeShii\Smooth-Scroll\publish\Newtonsoft.Json.dll
-D:\CodeShii\Smooth-Scroll\publish\SmoothScroll.dll
