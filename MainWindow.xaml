@@ -4,28 +4,42 @@
         xmlns:tb="http://www.hardcodet.net/taskbar"
         xmlns:local="clr-namespace:SmoothScroll"
         Title="SmoothScroll" 
-        Height="580" Width="380"
+        Height="640" Width="380"
         WindowStyle="None"
         AllowsTransparency="True"
         Background="Transparent"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        Visibility="Hidden"
-        WindowStartupLocation="CenterScreen">
+        WindowStartupLocation="CenterScreen"
+        Icon="pack://application:,,,/Assets/icon.ico">
 
     <Window.Resources>
-        <Storyboard x:Key="FadeIn">
-            <DoubleAnimation Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.25">
-                <DoubleAnimation.EasingFunction>
-                    <CubicEase EasingMode="EaseOut"/>
-                </DoubleAnimation.EasingFunction>
-            </DoubleAnimation>
-        </Storyboard>
+        <!-- Setting Item Style -->
+        <Style x:Key="SettingItem" TargetType="Border">
+            <Setter Property="Padding" Value="0,14"/>
+        </Style>
+        
+        <!-- Separator Style -->
+        <Style x:Key="Separator" TargetType="Border">
+            <Setter Property="Height" Value="1"/>
+            <Setter Property="Background" Value="#15FFFFFF"/>
+            <Setter Property="Margin" Value="0,0,0,0"/>
+        </Style>
+        
+        <!-- Glass Card Style -->
+        <Style x:Key="GlassCardLocal" TargetType="Border">
+            <Setter Property="Background" Value="#0CFFFFFF"/>
+            <Setter Property="CornerRadius" Value="14"/>
+            <Setter Property="Padding" Value="18"/>
+            <Setter Property="BorderBrush" Value="#18FFFFFF"/>
+            <Setter Property="BorderThickness" Value="1"/>
+        </Style>
     </Window.Resources>
 
     <Grid>
         <!-- System Tray Icon -->
         <tb:TaskbarIcon x:Name="TrayIcon"
+                        IconSource="pack://application:,,,/Assets/icon.ico"
                         ToolTipText="SmoothScroll"
                         TrayMouseDoubleClick="TrayIcon_TrayMouseDoubleClick">
             <tb:TaskbarIcon.ContextMenu>
@@ -39,56 +53,77 @@
         </tb:TaskbarIcon>
 
         <!-- Main Glass Container -->
-        <Border CornerRadius="24" Margin="10">
+        <Border CornerRadius="20" Margin="10">
             <Border.Effect>
-                <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="0" Opacity="0.4"/>
+                <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="0" Opacity="0.6"/>
             </Border.Effect>
             <Border.Background>
-                <LinearGradientBrush StartPoint="0,0" EndPoint="1,1">
-                    <GradientStop Color="#1a1a2e" Offset="0"/>
-                    <GradientStop Color="#16213e" Offset="0.5"/>
-                    <GradientStop Color="#0f0f23" Offset="1"/>
-                </LinearGradientBrush>
+                <SolidColorBrush Color="#E81a1a1f"/>
             </Border.Background>
 
             <Grid>
-                <!-- Subtle Glass Overlay -->
-                <Border CornerRadius="24" Opacity="0.05">
+                <!-- Glass Overlay -->
+                <Border CornerRadius="20" Opacity="0.04">
                     <Border.Background>
                         <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
                             <GradientStop Color="White" Offset="0"/>
-                            <GradientStop Color="Transparent" Offset="0.5"/>
+                            <GradientStop Color="Transparent" Offset="0.4"/>
                         </LinearGradientBrush>
                     </Border.Background>
                 </Border>
 
                 <DockPanel>
                     <!-- Header -->
-                    <Border DockPanel.Dock="Top" Padding="24,16" 
+                    <Border DockPanel.Dock="Top" Padding="24,18,24,14" 
                             MouseLeftButtonDown="Header_MouseLeftButtonDown"
                             Background="Transparent" Cursor="Hand">
                         <Grid>
                             <StackPanel HorizontalAlignment="Left" Orientation="Horizontal" VerticalAlignment="Center">
-                                <!-- Status Dot -->
-                                <Ellipse x:Name="StatusIndicator" Width="10" Height="10" 
-                                         Fill="#34D399" Margin="0,0,10,0">
+                                <Ellipse x:Name="StatusIndicator" Width="9" Height="9" 
+                                         Fill="#10B981" Margin="0,0,12,0">
                                     <Ellipse.Effect>
-                                        <DropShadowEffect Color="#34D399" BlurRadius="8" ShadowDepth="0" Opacity="0.6"/>
+                                        <DropShadowEffect Color="#10B981" BlurRadius="8" ShadowDepth="0" Opacity="0.8"/>
                                     </Ellipse.Effect>
                                 </Ellipse>
                                 <TextBlock Text="SmoothScroll" FontSize="16" FontWeight="SemiBold" 
                                            Foreground="White" VerticalAlignment="Center"/>
                             </StackPanel>
 
-                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal">
+                            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                                <!-- Language Flags -->
+                                <Border x:Name="FlagVN" Width="24" Height="18" CornerRadius="3" 
+                                        Margin="0,0,4,0" Cursor="Hand" 
+                                        MouseLeftButtonDown="FlagVN_Click"
+                                        BorderThickness="2" BorderBrush="#8B5CF6">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#DA251D" Offset="0"/>
+                                            <GradientStop Color="#DA251D" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <TextBlock Text="🇻🇳" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                <Border x:Name="FlagUS" Width="24" Height="18" CornerRadius="3" 
+                                        Margin="0,0,12,0" Cursor="Hand"
+                                        MouseLeftButtonDown="FlagUS_Click"
+                                        BorderThickness="2" BorderBrush="Transparent">
+                                    <Border.Background>
+                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
+                                            <GradientStop Color="#3C3B6E" Offset="0"/>
+                                            <GradientStop Color="#B22234" Offset="1"/>
+                                        </LinearGradientBrush>
+                                    </Border.Background>
+                                    <TextBlock Text="🇺🇸" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                </Border>
+                                
                                 <Button x:Name="MinimizeButton" Content="─" 
-                                        Width="32" Height="32" FontSize="12"
-                                        Background="Transparent" Foreground="#808080"
+                                        Width="30" Height="30" FontSize="11"
+                                        Background="Transparent" Foreground="#606060"
                                         BorderThickness="0" Cursor="Hand"
                                         Click="MinimizeButton_Click"/>
                                 <Button x:Name="CloseButton" Content="✕" 
-                                        Width="32" Height="32" FontSize="11"
-                                        Background="Transparent" Foreground="#808080"
+                                        Width="30" Height="30" FontSize="10"
+                                        Background="Transparent" Foreground="#606060"
                                         BorderThickness="0" Cursor="Hand"
                                         Click="CloseButton_Click"/>
                             </StackPanel>
@@ -96,107 +131,116 @@
                     </Border>
 
                     <!-- Content -->
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Padding="24,0,24,24">
-                        <StackPanel>
+                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                        <StackPanel Margin="24,0,24,24">
                             
-                            <!-- Status Card -->
-                            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,16">
-                                <Grid>
-                                    <StackPanel>
-                                        <StackPanel Orientation="Horizontal" Margin="0,0,0,8">
-                                            <TextBlock x:Name="StatusText" Text="Running" 
-                                                       FontSize="18" FontWeight="SemiBold" Foreground="White"/>
-                                        </StackPanel>
-                                        <TextBlock x:Name="StatusDescription" 
-                                                   Text="SmoothScroll is active" 
-                                                   FontSize="12" Foreground="#808080"/>
-                                    </StackPanel>
-                                    
-                                    <Button x:Name="ToggleButton" Content="Pause" 
-                                            Style="{StaticResource GlassButton}"
-                                            HorizontalAlignment="Right" VerticalAlignment="Center"
-                                            Width="80" Padding="0,8"
-                                            Click="ToggleButton_Click"/>
-                                </Grid>
-                            </Border>
-
-                            <!-- Quick Settings -->
-                            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,16">
+                            <!-- Section: Cài đặt -->
+                            <TextBlock x:Name="LblSettings" Text="Cài đặt" FontSize="13" FontWeight="SemiBold" 
+                                       Foreground="#AAAAAA" Margin="4,0,0,10"/>
+                            
+                            <Border Style="{StaticResource GlassCardLocal}" Padding="18,6" Margin="0,0,0,24">
                                 <StackPanel>
-                                    <TextBlock Text="Quick Settings" FontSize="13" FontWeight="Medium" 
-                                               Foreground="#808080" Margin="0,0,0,16"/>
-                                    
                                     <!-- Enable -->
-                                    <Grid Margin="0,0,0,12">
-                                        <TextBlock Text="Enable" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
-                                        <CheckBox x:Name="EnableToggle" Style="{StaticResource GlassToggle}" 
-                                                  HorizontalAlignment="Right" IsChecked="True"
-                                                  Checked="EnableToggle_Changed" Unchecked="EnableToggle_Changed"/>
-                                    </Grid>
+                                    <Border Style="{StaticResource SettingItem}">
+                                        <Grid>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock x:Name="LblEnableSmooth" Text="Bật cuộn mượt" FontSize="14" Foreground="White"/>
+                                                <TextBlock x:Name="LblEnableSmoothDesc" Text="Áp dụng cho tất cả ứng dụng" 
+                                                           FontSize="11" Foreground="#606060" Margin="0,3,0,0"/>
+                                            </StackPanel>
+                                            <CheckBox x:Name="EnableToggle" Style="{StaticResource GlassToggle}" 
+                                                      HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="True"
+                                                      Checked="EnableToggle_Changed" Unchecked="EnableToggle_Changed"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Style="{StaticResource Separator}"/>
                                     
                                     <!-- Start with Windows -->
-                                    <Grid Margin="0,0,0,12">
-                                        <TextBlock Text="Start with Windows" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
-                                        <CheckBox x:Name="StartupToggle" Style="{StaticResource GlassToggle}" 
-                                                  HorizontalAlignment="Right"
-                                                  Checked="StartupToggle_Changed" Unchecked="StartupToggle_Changed"/>
-                                    </Grid>
+                                    <Border Style="{StaticResource SettingItem}">
+                                        <Grid>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock x:Name="LblStartWindows" Text="Khởi động cùng Windows" FontSize="14" Foreground="White"/>
+                                                <TextBlock x:Name="LblStartWindowsDesc" Text="Tự động chạy khi bật máy" 
+                                                           FontSize="11" Foreground="#606060" Margin="0,3,0,0"/>
+                                            </StackPanel>
+                                            <CheckBox x:Name="StartupToggle" Style="{StaticResource GlassToggle}" 
+                                                      HorizontalAlignment="Right" VerticalAlignment="Center"
+                                                      Checked="StartupToggle_Changed" Unchecked="StartupToggle_Changed"/>
+                                        </Grid>
+                                    </Border>
+                                    <Border Style="{StaticResource Separator}"/>
                                     
                                     <!-- Acceleration -->
-                                    <Grid>
-                                        <TextBlock Text="Scroll Acceleration" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
-                                        <CheckBox x:Name="AccelerationToggle" Style="{StaticResource GlassToggle}" 
-                                                  HorizontalAlignment="Right" IsChecked="True"
-                                                  Checked="AccelerationToggle_Changed" Unchecked="AccelerationToggle_Changed"/>
-                                    </Grid>
+                                    <Border Style="{StaticResource SettingItem}">
+                                        <Grid>
+                                            <StackPanel VerticalAlignment="Center">
+                                                <TextBlock x:Name="LblAcceleration" Text="Tăng tốc cuộn" FontSize="14" Foreground="White"/>
+                                                <TextBlock x:Name="LblAccelerationDesc" Text="Cuộn nhanh hơn khi lướt liên tục" 
+                                                           FontSize="11" Foreground="#606060" Margin="0,3,0,0"/>
+                                            </StackPanel>
+                                            <CheckBox x:Name="AccelerationToggle" Style="{StaticResource GlassToggle}" 
+                                                      HorizontalAlignment="Right" VerticalAlignment="Center" IsChecked="True"
+                                                      Checked="AccelerationToggle_Changed" Unchecked="AccelerationToggle_Changed"/>
+                                        </Grid>
+                                    </Border>
                                 </StackPanel>
                             </Border>
 
-                            <!-- Scroll Settings -->
-                            <Border Style="{StaticResource GlassCard}" Margin="0,0,0,16">
+                            <!-- Section: Tinh chỉnh -->
+                            <TextBlock x:Name="LblTuning" Text="Tinh chỉnh" FontSize="13" FontWeight="SemiBold" 
+                                       Foreground="#AAAAAA" Margin="4,0,0,10"/>
+                            
+                            <Border Style="{StaticResource GlassCardLocal}" Margin="0,0,0,24">
                                 <StackPanel>
-                                    <TextBlock Text="Scroll Settings" FontSize="13" FontWeight="Medium" 
-                                               Foreground="#808080" Margin="0,0,0,16"/>
-                                    
                                     <!-- Smoothness -->
-                                    <StackPanel Margin="0,0,0,16">
-                                        <Grid Margin="0,0,0,8">
-                                            <TextBlock Text="Smoothness" FontSize="13" Foreground="White"/>
-                                            <TextBlock x:Name="SmoothnessValue" Text="Smooth" 
-                                                       FontSize="12" Foreground="#8B5CF6" HorizontalAlignment="Right"/>
+                                    <StackPanel Margin="0,0,0,20">
+                                        <Grid Margin="0,0,0,10">
+                                            <TextBlock x:Name="LblSmoothness" Text="Độ mượt" FontSize="14" Foreground="White"/>
+                                            <TextBlock x:Name="SmoothnessValue" Text="Rất mượt" 
+                                                       FontSize="12" Foreground="#A78BFA" HorizontalAlignment="Right"/>
                                         </Grid>
-                                        <Slider x:Name="SmoothnessSlider" Minimum="5" Maximum="30" Value="12"
-                                                Height="20" ValueChanged="SmoothnessSlider_ValueChanged"/>
+                                        <Slider x:Name="SmoothnessSlider" Minimum="5" Maximum="30" Value="5"
+                                                Height="24" ValueChanged="SmoothnessSlider_ValueChanged"/>
                                     </StackPanel>
                                     
                                     <!-- Speed -->
-                                    <StackPanel Margin="0,0,0,16">
-                                        <Grid Margin="0,0,0,8">
-                                            <TextBlock Text="Scroll Speed" FontSize="13" Foreground="White"/>
-                                            <TextBlock x:Name="SpeedValue" Text="1.5x" 
-                                                       FontSize="12" Foreground="#8B5CF6" HorizontalAlignment="Right"/>
+                                    <StackPanel Margin="0,0,0,20">
+                                        <Grid Margin="0,0,0,10">
+                                            <TextBlock x:Name="LblSpeed" Text="Tốc độ cuộn" FontSize="14" Foreground="White"/>
+                                            <TextBlock x:Name="SpeedValue" Text="1.4x" 
+                                                       FontSize="12" Foreground="#A78BFA" HorizontalAlignment="Right"/>
                                         </Grid>
-                                        <Slider x:Name="SpeedSlider" Minimum="50" Maximum="300" Value="150"
-                                                Height="20" ValueChanged="SpeedSlider_ValueChanged"/>
+                                        <Slider x:Name="SpeedSlider" Minimum="50" Maximum="300" Value="140"
+                                                Height="24" ValueChanged="SpeedSlider_ValueChanged"/>
                                     </StackPanel>
                                     
-                                    <!-- Friction -->
-                                    <StackPanel Margin="0,0,0,16">
-                                        <Grid Margin="0,0,0,8">
-                                            <TextBlock Text="Momentum" FontSize="13" Foreground="White"/>
-                                            <TextBlock x:Name="FrictionValue" Text="Medium" 
-                                                       FontSize="12" Foreground="#8B5CF6" HorizontalAlignment="Right"/>
+                                    <!-- Momentum -->
+                                    <StackPanel Margin="0,0,0,20">
+                                        <Grid Margin="0,0,0,10">
+                                            <TextBlock x:Name="LblMomentum" Text="Quán tính" FontSize="14" Foreground="White"/>
+                                            <TextBlock x:Name="FrictionValue" Text="Rất cao" 
+                                                       FontSize="12" Foreground="#A78BFA" HorizontalAlignment="Right"/>
                                         </Grid>
-                                        <Slider x:Name="FrictionSlider" Minimum="80" Maximum="98" Value="92"
-                                                Height="20" ValueChanged="FrictionSlider_ValueChanged"/>
+                                        <Slider x:Name="FrictionSlider" Minimum="80" Maximum="98" Value="97"
+                                                Height="24" ValueChanged="FrictionSlider_ValueChanged"/>
                                     </StackPanel>
                                     
-                                    <!-- Easing -->
+                                    <!-- Glide -->
+                                    <StackPanel Margin="0,0,0,20">
+                                        <Grid Margin="0,0,0,10">
+                                            <TextBlock x:Name="LblGlide" Text="Độ trôi" FontSize="14" Foreground="White"/>
+                                            <TextBlock x:Name="GlideValue" Text="Mạnh" 
+                                                       FontSize="12" Foreground="#A78BFA" HorizontalAlignment="Right"/>
+                                        </Grid>
+                                        <Slider x:Name="GlideSlider" Minimum="100" Maximum="500" Value="320"
+                                                Height="24" ValueChanged="GlideSlider_ValueChanged"/>
+                                    </StackPanel>
+                                    
+                                    <!-- Animation -->
                                     <Grid>
-                                        <TextBlock Text="Animation" FontSize="13" Foreground="White" VerticalAlignment="Center"/>
-                                        <ComboBox x:Name="EasingComboBox" Width="130" HorizontalAlignment="Right"
-                                                  Background="#20FFFFFF" Foreground="White" BorderThickness="0"
-                                                  FontSize="12" Padding="10,6"
+                                        <TextBlock x:Name="LblAnimation" Text="Hiệu ứng" FontSize="14" Foreground="White" VerticalAlignment="Center"/>
+                                        <ComboBox x:Name="EasingComboBox" Width="145" HorizontalAlignment="Right"
+                                                  Style="{StaticResource GlassComboBox}"
                                                   SelectionChanged="EasingComboBox_SelectionChanged">
                                             <ComboBoxItem Content="Ease Out Quad" Tag="EaseOutQuad" IsSelected="True"/>
                                             <ComboBoxItem Content="Ease Out Cubic" Tag="EaseOutCubic"/>
@@ -208,22 +252,23 @@
                                 </StackPanel>
                             </Border>
 
-                            <!-- Excluded Apps -->
-                            <Border Style="{StaticResource GlassCard}">
+                            <!-- Section: Ngoại lệ -->
+                            <TextBlock x:Name="LblExceptions" Text="Ngoại lệ" FontSize="13" FontWeight="SemiBold" 
+                                       Foreground="#AAAAAA" Margin="4,0,0,10"/>
+                            
+                            <Border Style="{StaticResource GlassCardLocal}">
                                 <Grid>
-                                    <StackPanel>
-                                        <TextBlock Text="Excluded Apps" FontSize="13" FontWeight="Medium" 
-                                                   Foreground="#808080"/>
-                                        <TextBlock x:Name="ExcludedAppsCount" Text="0 apps excluded" 
-                                                   FontSize="11" Foreground="#505050" Margin="0,4,0,0"/>
+                                    <StackPanel VerticalAlignment="Center">
+                                        <TextBlock x:Name="LblExcludedApps" Text="Ứng dụng loại trừ" FontSize="14" Foreground="White"/>
+                                        <TextBlock x:Name="ExcludedAppsCount" Text="Không có ứng dụng nào" 
+                                                   FontSize="11" Foreground="#606060" Margin="0,3,0,0"/>
                                     </StackPanel>
                                     
-                                    <!-- Button to open running apps selector -->
-                                    <Button x:Name="BrowseAppsButton" Content="⚙ Manage" 
-                                            ToolTip="Select apps to exclude"
+                                    <Button x:Name="BrowseAppsButton" Content="Quản lý" 
+                                            ToolTip="Chọn ứng dụng để loại trừ"
                                             Style="{StaticResource GlassButtonSecondary}"
                                             HorizontalAlignment="Right" VerticalAlignment="Center"
-                                            Padding="12,6" FontSize="11"
+                                            Padding="16,9" FontSize="12"
                                             Click="BrowseAppsButton_Click"/>
                                 </Grid>
                             </Border>

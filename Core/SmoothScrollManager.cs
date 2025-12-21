@@ -126,6 +126,7 @@ namespace SmoothScroll.Core
             _scrollEngine.SmoothnessFactor = _settings.SmoothnessFactor;
             _scrollEngine.AccelerationFactor = _settings.AccelerationFactor;
             _scrollEngine.FrictionFactor = _settings.FrictionFactor;
+            _scrollEngine.MomentumFactor = _settings.MomentumFactor;
             _scrollEngine.EasingFunction = _settings.EasingFunction;
             _scrollEngine.UseAcceleration = _settings.UseAcceleration;
             _mouseHook.IsEnabled = _settings.Enabled;

@@ -22,15 +22,20 @@ namespace SmoothScroll
             // Check if started with --show flag (user explicitly opened)
             bool showWindow = e.Args.Contains("--show");
 
-            if (!showWindow)
+            // Create the main window
+            var mainWindow = new MainWindow();
+            MainWindow = mainWindow;
+
+            if (showWindow)
             {
-                // Start hidden - don't show main window
-                // MainWindow will be created but hidden
-                var mainWindow = new MainWindow();
-                mainWindow.Hide();
-                MainWindow = mainWindow;
+                // User explicitly opened - show the window
+                mainWindow.Show();
             }
-            // If --show flag, let StartupUri handle it normally
+            else
+            {
+                // Start hidden - run in system tray
+                mainWindow.Hide();
+            }
         }
 
         protected override void OnExit(ExitEventArgs e)

@@ -21,14 +21,16 @@ namespace SmoothScroll.Core
         public bool StartWithWindows { get; set; } = true;
         public bool StartMinimized { get; set; } = true;
         public bool ShowNotifications { get; set; } = true;
+        public string Language { get; set; } = "vi"; // vi or en
 
         // Scroll settings
-        public double SmoothnessFactor { get; set; } = 0.12;
-        public double AccelerationFactor { get; set; } = 1.5;
-        public double FrictionFactor { get; set; } = 0.92;
+        public double SmoothnessFactor { get; set; } = 0.05; // Very Smooth
+        public double AccelerationFactor { get; set; } = 1.2;
+        public double FrictionFactor { get; set; } = 0.97; // Very High Momentum
+        public double MomentumFactor { get; set; } = 3.2; // Strong Glide (1.0 - 5.0)
         public EasingType EasingFunction { get; set; } = EasingType.EaseOutQuad;
         public bool UseAcceleration { get; set; } = true;
-        public double ScrollMultiplier { get; set; } = 1.0;
+        public double ScrollMultiplier { get; set; } = 1.4; // 1.4x Speed
 
         // Per-application settings
         public Dictionary<string, AppSpecificSettings> PerAppSettings { get; set; } = new();

@@ -11,6 +11,7 @@ namespace SmoothScroll
     {
         private SmoothScrollManager? _manager;
         private bool _isRunning = true;
+        private LocalizationManager _loc = LocalizationManager.Instance;
 
         public MainWindow()
         {
@@ -29,6 +30,11 @@ namespace SmoothScroll
 
             // Load settings
             LoadSettings();
+
+            // Initialize localization
+            _loc.CurrentLanguage = _manager.Settings.Language;
+            _loc.LanguageChanged += OnLanguageChanged;
+            UpdateLanguageUI();
 
             // Start the manager
             _manager.Start();
@@ -55,6 +61,7 @@ namespace SmoothScroll
             SmoothnessSlider.Value = settings.SmoothnessFactor * 100;
             SpeedSlider.Value = settings.ScrollMultiplier * 100;
             FrictionSlider.Value = settings.FrictionFactor * 100;
+            GlideSlider.Value = settings.MomentumFactor * 100;
 
             // Set easing combo box
             foreach (ComboBoxItem item in EasingComboBox.Items)
@@ -76,16 +83,13 @@ namespace SmoothScroll
             
             var count = _manager.Settings.ExcludedApps?.Count ?? 0;
             ExcludedAppsCount.Text = count == 0 
-                ? "No apps excluded" 
-                : $"{count} app{(count > 1 ? "s" : "")} excluded";
+                ? _loc["NoAppsExcluded"]
+                : string.Format(_loc["AppsExcluded"], count);
         }
 
         private void Manager_StatusChanged(object? sender, string status)
         {
-            Dispatcher.Invoke(() =>
-            {
-                StatusDescription.Text = status;
-            });
+            // Status description removed from UI
         }
 
         private void Manager_ScrollActivity(object? sender, ScrollActivityEventArgs e)
@@ -98,18 +102,92 @@ namespace SmoothScroll
             if (_isRunning)
             {
                 StatusIndicator.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#10B981"));
-                StatusText.Text = "Running";
-                StatusDescription.Text = "SmoothScroll is active and working";
-                ToggleButton.Content = "Pause";
             }
             else
             {
                 StatusIndicator.Fill = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#F59E0B"));
-                StatusText.Text = "Paused";
-                StatusDescription.Text = "SmoothScroll is paused";
-                ToggleButton.Content = "Resume";
             }
         }
+
+        #region Language
+
+        private void FlagVN_Click(object sender, MouseButtonEventArgs e)
+        {
+            SetLanguage("vi");
+        }
+
+        private void FlagUS_Click(object sender, MouseButtonEventArgs e)
+        {
+            SetLanguage("en");
+        }
+
+        private void SetLanguage(string lang)
+        {
+            if (_manager == null) return;
+            _loc.CurrentLanguage = lang;
+            _manager.Settings.Language = lang;
+            SaveSettings();
+        }
+
+        private void OnLanguageChanged(object? sender, string lang)
+        {
+            Dispatcher.Invoke(() =>
+            {
+                UpdateLanguageUI();
+                UpdateFlagSelection();
+            });
+        }
+
+        private void UpdateLanguageUI()
+        {
+            // Section titles
+            LblSettings.Text = _loc["Settings"];
+            LblTuning.Text = _loc["Tuning"];
+            LblExceptions.Text = _loc["Exceptions"];
+
+            // Settings
+            LblEnableSmooth.Text = _loc["EnableSmooth"];
+            LblEnableSmoothDesc.Text = _loc["EnableSmoothDesc"];
+            LblStartWindows.Text = _loc["StartWithWindows"];
+            LblStartWindowsDesc.Text = _loc["StartWithWindowsDesc"];
+            LblAcceleration.Text = _loc["ScrollAcceleration"];
+            LblAccelerationDesc.Text = _loc["ScrollAccelerationDesc"];
+
+            // Tuning
+            LblSmoothness.Text = _loc["Smoothness"];
+            LblSpeed.Text = _loc["ScrollSpeed"];
+            LblMomentum.Text = _loc["Momentum"];
+            LblGlide.Text = _loc["Glide"];
+            LblAnimation.Text = _loc["Animation"];
+
+            // Exceptions
+            LblExcludedApps.Text = _loc["ExcludedApps"];
+            BrowseAppsButton.Content = _loc["Manage"];
+
+            // Update dynamic values
+            RefreshExcludedAppsList();
+            UpdateSliderLabels();
+            UpdateFlagSelection();
+        }
+
+        private void UpdateFlagSelection()
+        {
+            var activeColor = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#8B5CF6"));
+            var inactiveColor = new SolidColorBrush(Colors.Transparent);
+            
+            FlagVN.BorderBrush = _loc.CurrentLanguage == "vi" ? activeColor : inactiveColor;
+            FlagUS.BorderBrush = _loc.CurrentLanguage == "en" ? activeColor : inactiveColor;
+        }
+
+        private void UpdateSliderLabels()
+        {
+            // Force update slider labels with current values
+            SmoothnessSlider_ValueChanged(SmoothnessSlider, new RoutedPropertyChangedEventArgs<double>(0, SmoothnessSlider.Value));
+            FrictionSlider_ValueChanged(FrictionSlider, new RoutedPropertyChangedEventArgs<double>(0, FrictionSlider.Value));
+            GlideSlider_ValueChanged(GlideSlider, new RoutedPropertyChangedEventArgs<double>(0, GlideSlider.Value));
+        }
+
+        #endregion
 
         #region Window Controls
 
@@ -132,13 +210,6 @@ namespace SmoothScroll
         #endregion
 
         #region Settings Controls
-
-        private void ToggleButton_Click(object sender, RoutedEventArgs e)
-        {
-            _manager?.Toggle();
-            _isRunning = !_isRunning;
-            UpdateUI();
-        }
 
         private void EnableToggle_Changed(object sender, RoutedEventArgs e)
         {
@@ -174,11 +245,11 @@ namespace SmoothScroll
             _manager.ApplySettings();
 
             // Update label
-            if (value < 0.08) SmoothnessValue.Text = "Very Smooth";
-            else if (value < 0.12) SmoothnessValue.Text = "Smooth";
-            else if (value < 0.18) SmoothnessValue.Text = "Medium";
-            else if (value < 0.25) SmoothnessValue.Text = "Responsive";
-            else SmoothnessValue.Text = "Instant";
+            if (value < 0.08) SmoothnessValue.Text = _loc["VerySmooth"];
+            else if (value < 0.12) SmoothnessValue.Text = _loc["Smooth"];
+            else if (value < 0.18) SmoothnessValue.Text = _loc["Medium"];
+            else if (value < 0.25) SmoothnessValue.Text = _loc["Fast"];
+            else SmoothnessValue.Text = _loc["Instant"];
 
             SaveSettings();
         }
@@ -205,10 +276,27 @@ namespace SmoothScroll
             _manager.Settings.FrictionFactor = value;
             _manager.ApplySettings();
 
-            if (value < 0.85) FrictionValue.Text = "Low Momentum";
-            else if (value < 0.90) FrictionValue.Text = "Medium";
-            else if (value < 0.95) FrictionValue.Text = "High Momentum";
-            else FrictionValue.Text = "Very High";
+            if (value < 0.85) FrictionValue.Text = _loc["Low"];
+            else if (value < 0.90) FrictionValue.Text = _loc["Medium"];
+            else if (value < 0.95) FrictionValue.Text = _loc["High"];
+            else FrictionValue.Text = _loc["VeryHigh"];
+
+            SaveSettings();
+        }
+
+        private void GlideSlider_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
+        {
+            if (_manager == null || GlideValue == null) return;
+
+            double value = GlideSlider.Value / 100.0; // 1.0 - 5.0
+            _manager.Settings.MomentumFactor = value;
+            _manager.ApplySettings();
+
+            if (value < 1.5) GlideValue.Text = _loc["Subtle"];
+            else if (value < 2.5) GlideValue.Text = _loc["Medium"];
+            else if (value < 3.5) GlideValue.Text = _loc["Strong"];
+            else if (value < 4.5) GlideValue.Text = _loc["VeryStrong"];
+            else GlideValue.Text = _loc["Maximum"];
 
             SaveSettings();
         }

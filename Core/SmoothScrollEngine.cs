@@ -32,10 +32,10 @@ namespace SmoothScroll.Core
         private double _accumulatedDelta = 0; // For sub-pixel scrolling
 
         // Scroll settings
-        public double SmoothnessFactor { get; set; } = 0.08; // Lower = smoother (0.05 - 0.2)
+        public double SmoothnessFactor { get; set; } = 0.05; // Very Smooth (0.05 - 0.2)
         public double AccelerationFactor { get; set; } = 1.2; // Multiplier for scroll delta
-        public double FrictionFactor { get; set; } = 0.92; // Higher = more momentum (0.85 - 0.98)
-        public double MinVelocityThreshold { get; set; } = 0.1; // Very low for smooth stop
+        public double FrictionFactor { get; set; } = 0.97; // Very High Momentum (0.85 - 0.98)
+        public double MinVelocityThreshold { get; set; } = 0.05; // Very low for smooth stop
         public int AnimationInterval { get; set; } = 8; // ~120fps for smoother animation
         public EasingType EasingFunction { get; set; } = EasingType.EaseOutQuad;
         public bool UseAcceleration { get; set; } = true;
@@ -45,6 +45,14 @@ namespace SmoothScroll.Core
         // Smooth stopping settings
         public double SmoothStopThreshold { get; set; } = 30; // Start smooth stop when below this
         public double MinScrollStep { get; set; } = 0.3; // Minimum scroll per frame for smooth stop
+
+        // Momentum/Inertia settings
+        public double MomentumFactor { get; set; } = 3.2; // Strong Glide (1.0 - 5.0)
+        public double GlideDecay { get; set; } = 0.992; // How slowly the glide decays (higher = longer glide)
+        private double _currentVelocity = 0; // Track current scroll velocity
+        private double _peakVelocity = 0; // Track peak velocity for momentum calculation
+        private bool _isGliding = false; // Whether we're in glide/coast mode
+        private const double GLIDE_TRIGGER_DELAY = 80; // ms after last input to start gliding
 
         public SmoothScrollEngine()
         {
@@ -61,6 +69,7 @@ namespace SmoothScroll.Core
 
             _targetWindow = window;
             _isHorizontal = isHorizontal;
+            _isGliding = false; // User is actively scrolling, not gliding
 
             // Calculate acceleration based on rapid scrolling
             double acceleratedDelta = delta * AccelerationFactor;
@@ -86,6 +95,14 @@ namespace SmoothScroll.Core
             {
                 // Change direction - reset momentum
                 _remainingScroll = acceleratedDelta;
+                _peakVelocity = 0;
+            }
+
+            // Track velocity for momentum
+            _currentVelocity = acceleratedDelta;
+            if (Math.Abs(_currentVelocity) > Math.Abs(_peakVelocity))
+            {
+                _peakVelocity = _currentVelocity;
             }
 
             // Clamp max velocity
@@ -110,6 +127,17 @@ namespace SmoothScroll.Core
 
             try
             {
+                // Check if user stopped scrolling - trigger glide mode
+                var timeSinceLastInput = (DateTime.Now - _lastScrollTime).TotalMilliseconds;
+                if (!_isGliding && timeSinceLastInput > GLIDE_TRIGGER_DELAY && Math.Abs(_peakVelocity) > 10)
+                {
+                    // Enter glide mode - add momentum boost for that "buttery" feel
+                    _isGliding = true;
+                    double momentumBoost = Math.Sign(_remainingScroll) * Math.Abs(_peakVelocity) * MomentumFactor * 0.3;
+                    _remainingScroll += momentumBoost;
+                    _remainingScroll = Math.Clamp(_remainingScroll, -MaxVelocity * 10, MaxVelocity * 10);
+                }
+
                 // Calculate scroll amount for this frame using adaptive easing
                 double scrollAmount = CalculateAdaptiveScrollStep();
 
@@ -127,8 +155,8 @@ namespace SmoothScroll.Core
                 // Update remaining scroll
                 _remainingScroll -= scrollAmount;
 
-                // Apply friction - more friction when close to stopping for smoother end
-                double dynamicFriction = CalculateDynamicFriction();
+                // Apply friction - use glide decay when gliding for longer coast
+                double dynamicFriction = _isGliding ? CalculateGlideFriction() : CalculateDynamicFriction();
                 _remainingScroll *= dynamicFriction;
             }
             catch
@@ -136,6 +164,21 @@ namespace SmoothScroll.Core
                 // Safety - stop on any error
                 StopScrolling();
             }
+        }
+
+        private double CalculateGlideFriction()
+        {
+            double absRemaining = Math.Abs(_remainingScroll);
+            
+            // Very gentle friction during glide for smooth coasting
+            if (absRemaining < SmoothStopThreshold * 2)
+            {
+                // Gradually slow down as we approach stop
+                double progress = absRemaining / (SmoothStopThreshold * 2);
+                return GlideDecay - (1 - progress) * 0.02; // 0.985 -> 0.965
+            }
+            
+            return GlideDecay;
         }
 
         private double CalculateAdaptiveScrollStep()
@@ -212,6 +255,9 @@ namespace SmoothScroll.Core
             _remainingScroll = 0;
             _initialScroll = 0;
             _accumulatedDelta = 0;
+            _currentVelocity = 0;
+            _peakVelocity = 0;
+            _isGliding = false;
         }
 
         public void Reset()
