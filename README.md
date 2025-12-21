@@ -1,5 +1,5 @@
 <p align="center">
-  <img src="Assets/icon.ico" width="128" height="128" alt="SmoothScroll Logo">
+  <img src="Fonts/appico.png" width="128" height="128" alt="SmoothScroll Logo">
 </p>
 
 <h1 align="center">SmoothScroll</h1>
@@ -25,7 +25,7 @@
 
 <p align="center">
   💖 This project is entirely <b>non-profit</b> and <b>free</b>. <br>
-  If you'd like to support my work, you can donate at my PayPal page: <a href="paypal.me/PhuocLe678"><b>Donate</b></a>
+  If you'd like to support my work, you can donate at my PayPal page: <a href="https://www.paypal.me/PhuocLe678"><b>Donate</b></a>
 </p>
 
 ---
