@@ -3,7 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 
-namespace SmoothScroll.Core
+namespace ScrollV.Core
 {
     /// <summary>
     /// Application settings with per-app customization support
@@ -12,7 +12,7 @@ namespace SmoothScroll.Core
     {
         private static readonly string SettingsPath = Path.Combine(
             Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-            "SmoothScroll",
+            "Scroll-V",
             "settings.json"
         );
 

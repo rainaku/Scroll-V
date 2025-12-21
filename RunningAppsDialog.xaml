@@ -1,4 +1,4 @@
-<Window x:Class="SmoothScroll.RunningAppsDialog"
+<Window x:Class="ScrollV.RunningAppsDialog"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         Title="Select Running Apps"

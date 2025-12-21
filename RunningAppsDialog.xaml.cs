@@ -1,4 +1,4 @@
-using SmoothScroll.Core;
+using ScrollV.Core;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -9,7 +9,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 
-namespace SmoothScroll
+namespace ScrollV
 {
     public partial class RunningAppsDialog : Window
     {

@@ -2,7 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 
-namespace SmoothScroll.Core
+namespace ScrollV.Core
 {
     public class LocalizationManager : INotifyPropertyChanged
     {

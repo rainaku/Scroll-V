@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Windows;
 using System.Windows.Data;
 
-namespace SmoothScroll
+namespace ScrollV
 {
     public class PercentageConverter : IValueConverter
     {

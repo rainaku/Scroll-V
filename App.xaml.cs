@@ -1,16 +1,16 @@
 ﻿using Microsoft.Win32;
-using SmoothScroll.Core;
+using ScrollV.Core;
 using System;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Threading;
 
-namespace SmoothScroll
+namespace ScrollV
 {
     public partial class App : Application
     {
-        private SmoothScrollManager? _manager;
+        private ScrollVManager? _manager;
         private DispatcherTimer? _memoryTimer;
 
         // Win32 API for memory management
@@ -25,7 +25,7 @@ namespace SmoothScroll
             base.OnStartup(e);
 
             // Initialize manager
-            _manager = new SmoothScrollManager();
+            _manager = new ScrollVManager();
 
             // Start smooth scrolling immediately
             _manager.Start();
@@ -86,11 +86,11 @@ namespace SmoothScroll
             }
         }
 
-        public SmoothScrollManager? GetManager() => _manager;
+        public ScrollVManager? GetManager() => _manager;
 
         public static void SetStartWithWindows(bool enable)
         {
-            const string appName = "SmoothScroll";
+            const string appName = "Scroll-V";
             string exePath = System.Diagnostics.Process.GetCurrentProcess().MainModule?.FileName ?? "";
 
             try
@@ -117,7 +117,7 @@ namespace SmoothScroll
 
         public static bool IsStartWithWindowsEnabled()
         {
-            const string appName = "SmoothScroll";
+            const string appName = "Scroll-V";
             try
             {
                 using var key = Registry.CurrentUser.OpenSubKey(@"SOFTWARE\Microsoft\Windows\CurrentVersion\Run", false);

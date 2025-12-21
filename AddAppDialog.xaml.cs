@@ -1,6 +1,6 @@
 using System.Windows;
 
-namespace SmoothScroll
+namespace ScrollV
 {
     public partial class AddAppDialog : Window
     {

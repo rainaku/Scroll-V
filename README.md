@@ -1,26 +1,26 @@
 <p align="center">
-  <img src="Fonts/appico.png" width="128" height="128" alt="SmoothScroll Logo">
+  <img src="Fonts/appico.png" width="128" height="128" alt="Scroll-V Logo">
 </p>
 
-<h1 align="center">SmoothScroll</h1>
+<h1 align="center">Scroll-V</h1>
 
 <p align="center">
   <b>Buttery smooth scrolling for all Windows applications</b>
 </p>
 
 <p align="center">
-  <a href="https://github.com/rainaku/Smooth-Scroll/releases">
-    <img src="https://img.shields.io/github/v/release/rainaku/Smooth-Scroll?style=for-the-badge&color=8B5CF6&logo=github" alt="Latest Release">
+  <a href="https://github.com/rainaku/Scroll-V/releases">
+    <img src="https://img.shields.io/github/v/release/rainaku/Scroll-V?style=for-the-badge&color=8B5CF6&logo=github" alt="Latest Release">
   </a>
   <img src="https://img.shields.io/badge/platform-Windows-lightgrey?style=for-the-badge&logo=windows" alt="Platform">
   <img src="https://img.shields.io/badge/.NET-8.0-purple?style=for-the-badge&logo=dotnet" alt="Framework">
   <a href="LICENSE">
-    <img src="https://img.shields.io/github/license/rainaku/Smooth-Scroll?style=for-the-badge" alt="License">
+    <img src="https://img.shields.io/github/license/rainaku/Scroll-V?style=for-the-badge" alt="License">
   </a>
 </p>
 
 <p align="center">
-  SmoothScroll brings a "buttery smooth" scrolling experience to all Windows applications, reducing hand fatigue and enhancing the overall aesthetics of your PC experience.
+  Scroll-V brings a "buttery smooth" scrolling experience to all Windows applications, reducing hand fatigue and enhancing the overall aesthetics of your PC experience.
 </p>
 
 <p align="center">
@@ -47,9 +47,9 @@
 - [.NET 8 Desktop Runtime](https://dotnet.microsoft.com/download/dotnet/8.0)
 
 ### Installation
-1. Download `SmoothScroll.zip` from [Releases](https://github.com/rainaku/Smooth-Scroll/releases)
+1. Download `Scroll-V.zip` from [Releases](https://github.com/rainaku/Scroll-V/releases)
 2. Extract to any folder
-3. Run `SmoothScroll.exe`
+3. Run `Scroll-V.exe`
 4. (Optional) Enable "Start with Windows" in settings
 
 ## 🎛️ Settings
@@ -97,7 +97,7 @@ You can exclude specific applications (useful for video players, design software
 - Built with **WPF (.NET 8)**
 - Uses **low-level mouse hooks** for system-wide scrolling
 - **120 FPS** animation engine
-- **JSON-based settings** stored in `%AppData%\SmoothScroll\settings.json`
+- **JSON-based settings** stored in `%AppData%\Scroll-V\settings.json`
 - Automatic **memory optimization** when running in background
 
 ## ⌨️ Usage
@@ -137,5 +137,5 @@ MIT License - Feel free to use, modify, and distribute.
 **Made with ❤️ by [rainaku](https://rainaku.id.vn)**
 
 [![Facebook](https://img.shields.io/badge/Facebook-1877F2?logo=facebook&logoColor=white)](https://www.facebook.com/rain.107/)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/rainaku/Smooth-Scroll)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?logo=github&logoColor=white)](https://github.com/rainaku/Scroll-V)
 [![Website](https://img.shields.io/badge/Website-FF7139?logo=firefox&logoColor=white)](https://rainaku.id.vn)

@@ -1,15 +1,15 @@
-﻿using SmoothScroll.Core;
+﻿using ScrollV.Core;
 using System;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 
-namespace SmoothScroll
+namespace ScrollV
 {
     public partial class MainWindow : Window
     {
-        private SmoothScrollManager? _manager;
+        private ScrollVManager? _manager;
         private bool _isRunning = true;
         private LocalizationManager _loc = LocalizationManager.Instance;
 
@@ -25,7 +25,7 @@ namespace SmoothScroll
             _manager = ((App)Application.Current).GetManager();
             if (_manager == null)
             {
-                _manager = new SmoothScrollManager();
+                _manager = new ScrollVManager();
             }
 
             // Load settings
@@ -201,7 +201,7 @@ namespace SmoothScroll
 
         private void SocialGithub_Click(object sender, MouseButtonEventArgs e)
         {
-            OpenUrl("https://github.com/rainaku/Smooth-Scroll");
+            OpenUrl("https://github.com/rainaku/Scroll-V");
         }
 
         private void SocialWebsite_Click(object sender, MouseButtonEventArgs e)

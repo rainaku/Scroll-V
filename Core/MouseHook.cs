@@ -3,7 +3,7 @@ using System.Collections.Concurrent;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
 
-namespace SmoothScroll.Core
+namespace ScrollV.Core
 {
     /// <summary>
     /// Low-level mouse hook to intercept scroll events system-wide
