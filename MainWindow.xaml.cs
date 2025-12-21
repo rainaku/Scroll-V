@@ -164,6 +164,9 @@ namespace SmoothScroll
             LblExcludedApps.Text = _loc["ExcludedApps"];
             BrowseAppsButton.Content = _loc["Manage"];
 
+            // Footer
+            LblMadeBy.Text = _loc["MadeBy"];
+
             // Update dynamic values
             RefreshExcludedAppsList();
             UpdateSliderLabels();
@@ -185,6 +188,38 @@ namespace SmoothScroll
             SmoothnessSlider_ValueChanged(SmoothnessSlider, new RoutedPropertyChangedEventArgs<double>(0, SmoothnessSlider.Value));
             FrictionSlider_ValueChanged(FrictionSlider, new RoutedPropertyChangedEventArgs<double>(0, FrictionSlider.Value));
             GlideSlider_ValueChanged(GlideSlider, new RoutedPropertyChangedEventArgs<double>(0, GlideSlider.Value));
+        }
+
+        #endregion
+
+        #region Social Links
+
+        private void SocialFacebook_Click(object sender, MouseButtonEventArgs e)
+        {
+            OpenUrl("https://www.facebook.com/rain.107/");
+        }
+
+        private void SocialGithub_Click(object sender, MouseButtonEventArgs e)
+        {
+            OpenUrl("https://github.com/rainaku/Smooth-Scroll");
+        }
+
+        private void SocialWebsite_Click(object sender, MouseButtonEventArgs e)
+        {
+            OpenUrl("https://rainaku.id.vn");
+        }
+
+        private void OpenUrl(string url)
+        {
+            try
+            {
+                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo
+                {
+                    FileName = url,
+                    UseShellExecute = true
+                });
+            }
+            catch { }
         }
 
         #endregion
@@ -359,6 +394,9 @@ namespace SmoothScroll
         {
             Visibility = Visibility.Hidden;
             Hide();
+            
+            // Optimize memory when hiding
+            App.OptimizeMemory();
         }
 
         private void TrayToggle_Click(object sender, RoutedEventArgs e)

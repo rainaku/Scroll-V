@@ -1,0 +1,6 @@
+D:\CodeShii\Smooth-Scroll\release_standalone\D3DCompiler_47_cor3.dll
+D:\CodeShii\Smooth-Scroll\release_standalone\PenImc_cor3.dll
+D:\CodeShii\Smooth-Scroll\release_standalone\PresentationNative_cor3.dll
+D:\CodeShii\Smooth-Scroll\release_standalone\vcruntime140_cor3.dll
+D:\CodeShii\Smooth-Scroll\release_standalone\wpfgfx_cor3.dll
+D:\CodeShii\Smooth-Scroll\release_standalone\SmoothScroll.exe

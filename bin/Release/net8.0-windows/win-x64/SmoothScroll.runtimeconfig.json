@@ -12,7 +12,12 @@
       }
     ],
     "configProperties": {
+      "System.GC.Concurrent": true,
+      "System.GC.Server": false,
+      "System.Globalization.Invariant": false,
       "System.Reflection.Metadata.MetadataUpdater.IsSupported": false,
+      "System.Runtime.TieredCompilation": true,
+      "System.Runtime.TieredCompilation.QuickJit": true,
       "CSWINRT_USE_WINDOWS_UI_XAML_PROJECTIONS": false
     }
   }

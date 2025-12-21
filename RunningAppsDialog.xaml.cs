@@ -14,6 +14,7 @@ namespace SmoothScroll
     public partial class RunningAppsDialog : Window
     {
         private readonly AppSettings _settings;
+        private readonly LocalizationManager _loc = LocalizationManager.Instance;
         private List<RunningAppInfo> _allApps = new();
         private ObservableCollection<RunningAppInfo> _filteredApps = new();
 
@@ -21,7 +22,15 @@ namespace SmoothScroll
         {
             InitializeComponent();
             _settings = settings;
+            UpdateLanguageUI();
             LoadRunningApps();
+        }
+
+        private void UpdateLanguageUI()
+        {
+            TitleText.Text = _loc["RunningApps"];
+            SearchPlaceholder.Text = _loc["SearchApps"];
+            HintText.Text = _loc["ToggleExcludeHint"];
         }
 
         private void LoadRunningApps()

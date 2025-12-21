@@ -13,6 +13,29 @@
         WindowStartupLocation="CenterScreen"
         Icon="pack://application:,,,/Assets/icon.ico">
 
+    <!-- Window Fade-in Animation -->
+    <Window.Triggers>
+        <EventTrigger RoutedEvent="Window.Loaded">
+            <BeginStoryboard>
+                <Storyboard>
+                    <DoubleAnimation Storyboard.TargetProperty="Opacity"
+                                     From="0" To="1" Duration="0:0:0.3">
+                        <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                    <DoubleAnimation Storyboard.TargetName="MainContainer"
+                                     Storyboard.TargetProperty="(UIElement.RenderTransform).(TranslateTransform.Y)"
+                                     From="15" To="0" Duration="0:0:0.35">
+                        <DoubleAnimation.EasingFunction>
+                            <QuadraticEase EasingMode="EaseOut"/>
+                        </DoubleAnimation.EasingFunction>
+                    </DoubleAnimation>
+                </Storyboard>
+            </BeginStoryboard>
+        </EventTrigger>
+    </Window.Triggers>
+
     <Window.Resources>
         <!-- Setting Item Style -->
         <Style x:Key="SettingItem" TargetType="Border">
@@ -26,13 +49,173 @@
             <Setter Property="Margin" Value="0,0,0,0"/>
         </Style>
         
-        <!-- Glass Card Style -->
+        <!-- Glass Card Style with Hover Animation -->
         <Style x:Key="GlassCardLocal" TargetType="Border">
             <Setter Property="Background" Value="#0CFFFFFF"/>
             <Setter Property="CornerRadius" Value="14"/>
             <Setter Property="Padding" Value="18"/>
             <Setter Property="BorderBrush" Value="#18FFFFFF"/>
             <Setter Property="BorderThickness" Value="1"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#12FFFFFF" Duration="0:0:0.2"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                To="#25FFFFFF" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#0CFFFFFF" Duration="0:0:0.2"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.BorderBrush).(SolidColorBrush.Color)"
+                                                To="#18FFFFFF" Duration="0:0:0.2"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Social Icon Style with Animation -->
+        <Style x:Key="SocialIcon" TargetType="Border">
+            <Setter Property="Width" Value="36"/>
+            <Setter Property="Height" Value="36"/>
+            <Setter Property="CornerRadius" Value="8"/>
+            <Setter Property="Background" Value="#15FFFFFF"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="RenderTransform">
+                <Setter.Value>
+                    <ScaleTransform ScaleX="1" ScaleY="1"/>
+                </Setter.Value>
+            </Setter>
+            <Setter Property="RenderTransformOrigin" Value="0.5,0.5"/>
+            <Style.Triggers>
+                <Trigger Property="IsMouseOver" Value="True">
+                    <Trigger.EnterActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="1.1" Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuadraticEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="1.1" Duration="0:0:0.15">
+                                    <DoubleAnimation.EasingFunction>
+                                        <QuadraticEase EasingMode="EaseOut"/>
+                                    </DoubleAnimation.EasingFunction>
+                                </DoubleAnimation>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#30FFFFFF" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.EnterActions>
+                    <Trigger.ExitActions>
+                        <BeginStoryboard>
+                            <Storyboard>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)"
+                                                 To="1" Duration="0:0:0.15"/>
+                                <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)"
+                                                 To="1" Duration="0:0:0.15"/>
+                                <ColorAnimation Storyboard.TargetProperty="(Border.Background).(SolidColorBrush.Color)"
+                                                To="#15FFFFFF" Duration="0:0:0.15"/>
+                            </Storyboard>
+                        </BeginStoryboard>
+                    </Trigger.ExitActions>
+                </Trigger>
+            </Style.Triggers>
+        </Style>
+
+        <!-- Window Control Button Style -->
+        <Style x:Key="WindowControlButton" TargetType="Button">
+            <Setter Property="Width" Value="32"/>
+            <Setter Property="Height" Value="32"/>
+            <Setter Property="FontSize" Value="12"/>
+            <Setter Property="Background" Value="Transparent"/>
+            <Setter Property="Foreground" Value="#707070"/>
+            <Setter Property="BorderThickness" Value="0"/>
+            <Setter Property="Cursor" Value="Hand"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bg" Background="{TemplateBinding Background}" 
+                                CornerRadius="6">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#25FFFFFF"/>
+                                <Setter Property="Foreground" Value="#AAAAAA"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#35FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Close Button Style (Red hover) -->
+        <Style x:Key="CloseButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowControlButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bg" Background="Transparent" CornerRadius="6">
+                            <TextBlock x:Name="icon" Text="✕" FontSize="11" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Foreground="#707070"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#40EF4444"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="#FF6B6B"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#60EF4444"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="#FF5555"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Minimize Button Style -->
+        <Style x:Key="MinimizeButtonStyle" TargetType="Button" BasedOn="{StaticResource WindowControlButton}">
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bg" Background="Transparent" CornerRadius="6">
+                            <TextBlock x:Name="icon" Text="─" FontSize="12" 
+                                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                                       Foreground="#707070"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#25FFFFFF"/>
+                                <Setter TargetName="icon" Property="Foreground" Value="#CCCCCC"/>
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bg" Property="Background" Value="#35FFFFFF"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
         </Style>
     </Window.Resources>
 
@@ -53,7 +236,10 @@
         </tb:TaskbarIcon>
 
         <!-- Main Glass Container -->
-        <Border CornerRadius="20" Margin="10">
+        <Border x:Name="MainContainer" CornerRadius="20" Margin="10">
+            <Border.RenderTransform>
+                <TranslateTransform Y="0"/>
+            </Border.RenderTransform>
             <Border.Effect>
                 <DropShadowEffect Color="Black" BlurRadius="30" ShadowDepth="0" Opacity="0.6"/>
             </Border.Effect>
@@ -90,49 +276,96 @@
                             </StackPanel>
 
                             <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
-                                <!-- Language Flags -->
-                                <Border x:Name="FlagVN" Width="24" Height="18" CornerRadius="3" 
-                                        Margin="0,0,4,0" Cursor="Hand" 
+                                <!-- Vietnam Flag -->
+                                <Border x:Name="FlagVN" Width="28" Height="18" CornerRadius="2" 
+                                        Margin="0,0,6,0" Cursor="Hand" ClipToBounds="True"
                                         MouseLeftButtonDown="FlagVN_Click"
-                                        BorderThickness="2" BorderBrush="#8B5CF6">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#DA251D" Offset="0"/>
-                                            <GradientStop Color="#DA251D" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                    <TextBlock Text="🇻🇳" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
-                                </Border>
-                                <Border x:Name="FlagUS" Width="24" Height="18" CornerRadius="3" 
-                                        Margin="0,0,12,0" Cursor="Hand"
-                                        MouseLeftButtonDown="FlagUS_Click"
-                                        BorderThickness="2" BorderBrush="Transparent">
-                                    <Border.Background>
-                                        <LinearGradientBrush StartPoint="0,0" EndPoint="0,1">
-                                            <GradientStop Color="#3C3B6E" Offset="0"/>
-                                            <GradientStop Color="#B22234" Offset="1"/>
-                                        </LinearGradientBrush>
-                                    </Border.Background>
-                                    <TextBlock Text="🇺🇸" FontSize="12" HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                                        BorderThickness="2" BorderBrush="#8B5CF6"
+                                        Background="#DA251D">
+                                    <!-- Yellow Star -->
+                                    <Viewbox Width="10" Height="10" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                        <Path Fill="#FFFF00" 
+                                              Data="M12,2 L14.5,9 L22,9 L16,14 L18.5,21 L12,16.5 L5.5,21 L8,14 L2,9 L9.5,9 Z"/>
+                                    </Viewbox>
                                 </Border>
                                 
-                                <Button x:Name="MinimizeButton" Content="─" 
-                                        Width="30" Height="30" FontSize="11"
-                                        Background="Transparent" Foreground="#606060"
-                                        BorderThickness="0" Cursor="Hand"
+                                <!-- USA Flag -->
+                                <Border x:Name="FlagUS" Width="28" Height="18" CornerRadius="2" 
+                                        Margin="0,0,12,0" Cursor="Hand" ClipToBounds="True"
+                                        MouseLeftButtonDown="FlagUS_Click"
+                                        BorderThickness="2" BorderBrush="Transparent">
+                                    <Grid>
+                                        <!-- Stripes -->
+                                        <StackPanel>
+                                            <Rectangle Height="1.38" Fill="#B22234"/>
+                                            <Rectangle Height="1.38" Fill="White"/>
+                                            <Rectangle Height="1.38" Fill="#B22234"/>
+                                            <Rectangle Height="1.38" Fill="White"/>
+                                            <Rectangle Height="1.38" Fill="#B22234"/>
+                                            <Rectangle Height="1.38" Fill="White"/>
+                                            <Rectangle Height="1.38" Fill="#B22234"/>
+                                            <Rectangle Height="1.38" Fill="White"/>
+                                            <Rectangle Height="1.38" Fill="#B22234"/>
+                                            <Rectangle Height="1.38" Fill="White"/>
+                                            <Rectangle Height="1.38" Fill="#B22234"/>
+                                            <Rectangle Height="1.38" Fill="White"/>
+                                            <Rectangle Height="1.38" Fill="#B22234"/>
+                                        </StackPanel>
+                                        <!-- Blue Canton with stars hint -->
+                                        <Rectangle Width="12" Height="8" Fill="#3C3B6E" 
+                                                   HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                        <TextBlock Text="✦" FontSize="5" Foreground="White" 
+                                                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                   Margin="2,1,0,0"/>
+                                        <TextBlock Text="✦" FontSize="4" Foreground="White" 
+                                                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                   Margin="7,0,0,0"/>
+                                        <TextBlock Text="✦" FontSize="4" Foreground="White" 
+                                                   HorizontalAlignment="Left" VerticalAlignment="Top"
+                                                   Margin="4,4,0,0"/>
+                                    </Grid>
+                                </Border>
+                                
+                                <Button x:Name="MinimizeButton" 
+                                        Style="{StaticResource MinimizeButtonStyle}"
                                         Click="MinimizeButton_Click"/>
-                                <Button x:Name="CloseButton" Content="✕" 
-                                        Width="30" Height="30" FontSize="10"
-                                        Background="Transparent" Foreground="#606060"
-                                        BorderThickness="0" Cursor="Hand"
+                                <Button x:Name="CloseButton" 
+                                        Style="{StaticResource CloseButtonStyle}"
                                         Click="CloseButton_Click"/>
                             </StackPanel>
                         </Grid>
                     </Border>
 
                     <!-- Content -->
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{StaticResource ThinScrollViewer}">
                         <StackPanel Margin="24,0,24,24">
+                            
+                            <!-- Social Icons -->
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Center" Margin="0,0,0,20">
+                                <!-- Facebook -->
+                                <Border x:Name="SocialFacebook" Style="{StaticResource SocialIcon}" Margin="0,0,10,0"
+                                        MouseLeftButtonDown="SocialFacebook_Click">
+                                    <Viewbox Width="18" Height="18">
+                                        <Path Fill="#8B8B8B" Data="M22 12c0-5.52-4.48-10-10-10S2 6.48 2 12c0 4.84 3.44 8.87 8 9.8V15H8v-3h2V9.5C10 7.57 11.57 6 13.5 6H16v3h-2c-.55 0-1 .45-1 1v2h3v3h-3v6.95c5.05-.5 9-4.76 9-9.95z"/>
+                                    </Viewbox>
+                                </Border>
+                                
+                                <!-- GitHub -->
+                                <Border x:Name="SocialGithub" Style="{StaticResource SocialIcon}" Margin="0,0,10,0"
+                                        MouseLeftButtonDown="SocialGithub_Click">
+                                    <Viewbox Width="18" Height="18">
+                                        <Path Fill="#8B8B8B" Data="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+                                    </Viewbox>
+                                </Border>
+                                
+                                <!-- Website -->
+                                <Border x:Name="SocialWebsite" Style="{StaticResource SocialIcon}"
+                                        MouseLeftButtonDown="SocialWebsite_Click">
+                                    <Viewbox Width="18" Height="18">
+                                        <Path Fill="#8B8B8B" Data="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-1 17.93c-3.95-.49-7-3.85-7-7.93 0-.62.08-1.21.21-1.79L9 15v1c0 1.1.9 2 2 2v1.93zm6.9-2.54c-.26-.81-1-1.39-1.9-1.39h-1v-3c0-.55-.45-1-1-1H8v-2h2c.55 0 1-.45 1-1V7h2c1.1 0 2-.9 2-2v-.41c2.93 1.19 5 4.06 5 7.41 0 2.08-.8 3.97-2.1 5.39z"/>
+                                    </Viewbox>
+                                </Border>
+                            </StackPanel>
                             
                             <!-- Section: Cài đặt -->
                             <TextBlock x:Name="LblSettings" Text="Cài đặt" FontSize="13" FontWeight="SemiBold" 
@@ -200,7 +433,8 @@
                                                        FontSize="12" Foreground="#A78BFA" HorizontalAlignment="Right"/>
                                         </Grid>
                                         <Slider x:Name="SmoothnessSlider" Minimum="5" Maximum="30" Value="5"
-                                                Height="24" ValueChanged="SmoothnessSlider_ValueChanged"/>
+                                                Style="{StaticResource ModernSlider}"
+                                                ValueChanged="SmoothnessSlider_ValueChanged"/>
                                     </StackPanel>
                                     
                                     <!-- Speed -->
@@ -211,7 +445,8 @@
                                                        FontSize="12" Foreground="#A78BFA" HorizontalAlignment="Right"/>
                                         </Grid>
                                         <Slider x:Name="SpeedSlider" Minimum="50" Maximum="300" Value="140"
-                                                Height="24" ValueChanged="SpeedSlider_ValueChanged"/>
+                                                Style="{StaticResource ModernSlider}"
+                                                ValueChanged="SpeedSlider_ValueChanged"/>
                                     </StackPanel>
                                     
                                     <!-- Momentum -->
@@ -222,7 +457,8 @@
                                                        FontSize="12" Foreground="#A78BFA" HorizontalAlignment="Right"/>
                                         </Grid>
                                         <Slider x:Name="FrictionSlider" Minimum="80" Maximum="98" Value="97"
-                                                Height="24" ValueChanged="FrictionSlider_ValueChanged"/>
+                                                Style="{StaticResource ModernSlider}"
+                                                ValueChanged="FrictionSlider_ValueChanged"/>
                                     </StackPanel>
                                     
                                     <!-- Glide -->
@@ -233,7 +469,8 @@
                                                        FontSize="12" Foreground="#A78BFA" HorizontalAlignment="Right"/>
                                         </Grid>
                                         <Slider x:Name="GlideSlider" Minimum="100" Maximum="500" Value="320"
-                                                Height="24" ValueChanged="GlideSlider_ValueChanged"/>
+                                                Style="{StaticResource ModernSlider}"
+                                                ValueChanged="GlideSlider_ValueChanged"/>
                                     </StackPanel>
                                     
                                     <!-- Animation -->
@@ -272,6 +509,16 @@
                                             Click="BrowseAppsButton_Click"/>
                                 </Grid>
                             </Border>
+
+                            <!-- Footer -->
+                            <StackPanel HorizontalAlignment="Center" Margin="0,20,0,0">
+                                <TextBlock x:Name="LblMadeBy" Text="Thực hiện bởi rainaku" 
+                                           FontSize="13" Foreground="#AAAAAA" 
+                                           HorizontalAlignment="Center"/>
+                                <TextBlock x:Name="LblVersion" Text="v1.0" 
+                                           FontSize="12" Foreground="#888888" 
+                                           HorizontalAlignment="Center" Margin="0,4,0,0"/>
+                            </StackPanel>
 
                         </StackPanel>
                     </ScrollViewer>

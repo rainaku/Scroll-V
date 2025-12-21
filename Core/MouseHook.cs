@@ -57,6 +57,11 @@ namespace SmoothScroll.Core
         [DllImport("user32.dll")]
         private static extern IntPtr WindowFromPoint(POINT Point);
 
+        [DllImport("user32.dll")]
+        private static extern short GetAsyncKeyState(int vKey);
+
+        private const int VK_CONTROL = 0x11;
+
         #endregion
 
         private IntPtr _hookId = IntPtr.Zero;
@@ -139,6 +144,12 @@ namespace SmoothScroll.Core
 
             // Fast path: check if this is our own injected scroll event
             if (hookStruct.dwExtraInfo == (IntPtr)SMOOTH_SCROLL_SIGNATURE)
+            {
+                return CallNextHookEx(_hookId, nCode, wParam, lParam);
+            }
+
+            // Skip smooth scroll when Ctrl is held (zoom functionality)
+            if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0)
             {
                 return CallNextHookEx(_hookId, nCode, wParam, lParam);
             }

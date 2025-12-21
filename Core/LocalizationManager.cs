@@ -70,6 +70,14 @@ namespace SmoothScroll.Core
                 ["NoAppsExcluded"] = "Không có ứng dụng nào",
                 ["AppsExcluded"] = "{0} ứng dụng được loại trừ",
                 ["Manage"] = "Quản lý",
+
+                // Running Apps Dialog
+                ["RunningApps"] = "Ứng dụng đang chạy",
+                ["SearchApps"] = "Tìm kiếm ứng dụng...",
+                ["ToggleExcludeHint"] = "Bật/tắt để loại trừ ứng dụng khỏi cuộn mượt",
+
+                // Footer
+                ["MadeBy"] = "Thực hiện bởi rainaku",
             },
             ["en"] = new Dictionary<string, string>
             {
@@ -112,6 +120,14 @@ namespace SmoothScroll.Core
                 ["NoAppsExcluded"] = "No apps excluded",
                 ["AppsExcluded"] = "{0} app(s) excluded",
                 ["Manage"] = "Manage",
+
+                // Running Apps Dialog
+                ["RunningApps"] = "Running Apps",
+                ["SearchApps"] = "Search apps...",
+                ["ToggleExcludeHint"] = "Toggle to exclude apps from smooth scrolling",
+
+                // Footer
+                ["MadeBy"] = "Made by rainaku",
             }
         };
 
