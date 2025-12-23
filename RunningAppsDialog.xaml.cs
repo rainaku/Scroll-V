@@ -56,7 +56,7 @@ namespace ScrollV
                             WindowTitle = string.IsNullOrEmpty(process.MainWindowTitle) 
                                 ? "Background process" 
                                 : process.MainWindowTitle,
-                            IsExcluded = _settings.IsAppExcluded(process.ProcessName)
+                            IsEnabled = !_settings.IsAppExcluded(process.ProcessName)
                         };
                         _allApps.Add(appInfo);
                     }
@@ -115,22 +115,26 @@ namespace ScrollV
         {
             if (sender is CheckBox checkBox && checkBox.Tag is string processName)
             {
-                bool isExcluded = checkBox.IsChecked == true;
+                // IsEnabled = smooth scroll works for this app
+                // When OFF (unchecked), app is excluded from smooth scroll
+                bool isEnabled = checkBox.IsChecked == true;
                 
-                if (isExcluded)
+                if (isEnabled)
                 {
-                    _settings.AddExcludedApp(processName);
+                    // Remove from exclusion list - smooth scroll works
+                    _settings.RemoveExcludedApp(processName);
                 }
                 else
                 {
-                    _settings.RemoveExcludedApp(processName);
+                    // Add to exclusion list - no smooth scroll
+                    _settings.AddExcludedApp(processName);
                 }
 
                 // Update the app info
                 var app = _allApps.FirstOrDefault(a => a.ProcessName == processName);
                 if (app != null)
                 {
-                    app.IsExcluded = isExcluded;
+                    app.IsEnabled = isEnabled;
                 }
             }
         }
@@ -150,18 +154,22 @@ namespace ScrollV
 
     public class RunningAppInfo : INotifyPropertyChanged
     {
-        private bool _isExcluded;
+        private bool _isEnabled;
 
         public string ProcessName { get; set; } = string.Empty;
         public string WindowTitle { get; set; } = string.Empty;
         
-        public bool IsExcluded
+        /// <summary>
+        /// When true, smooth scroll is enabled for this app.
+        /// When false, the app is excluded from smooth scrolling.
+        /// </summary>
+        public bool IsEnabled
         {
-            get => _isExcluded;
+            get => _isEnabled;
             set
             {
-                _isExcluded = value;
-                OnPropertyChanged(nameof(IsExcluded));
+                _isEnabled = value;
+                OnPropertyChanged(nameof(IsEnabled));
             }
         }
 

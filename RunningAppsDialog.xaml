@@ -173,7 +173,7 @@
                                             </StackPanel>
                                         </StackPanel>
                                         
-                                        <CheckBox IsChecked="{Binding IsExcluded}" 
+                                        <CheckBox IsChecked="{Binding IsEnabled}" 
                                                   HorizontalAlignment="Right" VerticalAlignment="Center"
                                                   Style="{StaticResource GlassToggle}"
                                                   Checked="AppToggle_Changed" Unchecked="AppToggle_Changed"

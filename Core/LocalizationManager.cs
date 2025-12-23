@@ -74,7 +74,7 @@ namespace ScrollV.Core
                 // Running Apps Dialog
                 ["RunningApps"] = "Ứng dụng đang chạy",
                 ["SearchApps"] = "Tìm kiếm ứng dụng...",
-                ["ToggleExcludeHint"] = "Bật/tắt để loại trừ ứng dụng khỏi cuộn mượt",
+                ["ToggleExcludeHint"] = "Bật = cuộn mượt hoạt động, Tắt = tắt cuộn mượt",
 
                 // Footer
                 ["MadeBy"] = "Thực hiện bởi rainaku",
@@ -124,7 +124,7 @@ namespace ScrollV.Core
                 // Running Apps Dialog
                 ["RunningApps"] = "Running Apps",
                 ["SearchApps"] = "Search apps...",
-                ["ToggleExcludeHint"] = "Toggle to exclude apps from smooth scrolling",
+                ["ToggleExcludeHint"] = "ON = smooth scroll enabled, OFF = disabled",
 
                 // Footer
                 ["MadeBy"] = "Made by rainaku",

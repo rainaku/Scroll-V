@@ -24,8 +24,22 @@ namespace ScrollV
         {
             base.OnStartup(e);
 
+            // Set high priority immediately to reduce input delay
+            try
+            {
+                System.Diagnostics.Process.GetCurrentProcess().PriorityClass = System.Diagnostics.ProcessPriorityClass.High;
+            }
+            catch { }
+
             // Initialize manager
             _manager = new ScrollVManager();
+
+            // First-run: Enable "Start with Windows" by default
+            // If registry key doesn't exist and settings say it should be enabled
+            if (_manager.Settings.StartWithWindows && !IsStartWithWindowsEnabled())
+            {
+                SetStartWithWindows(true);
+            }
 
             // Start smooth scrolling immediately
             _manager.Start();

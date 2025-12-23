@@ -337,7 +337,7 @@
                     </Border>
 
                     <!-- Content -->
-                    <ScrollViewer VerticalScrollBarVisibility="Auto" Style="{StaticResource ThinScrollViewer}">
+                    <ScrollViewer x:Name="ContentScrollViewer" VerticalScrollBarVisibility="Auto" Style="{StaticResource ThinScrollViewer}">
                         <StackPanel Margin="24,0,24,24">
                             
                             <!-- Social Icons -->
@@ -515,7 +515,7 @@
                                 <TextBlock x:Name="LblMadeBy" Text="Thực hiện bởi rainaku" 
                                            FontSize="13" Foreground="#AAAAAA" 
                                            HorizontalAlignment="Center"/>
-                                <TextBlock x:Name="LblVersion" Text="v1.0" 
+                                <TextBlock x:Name="LblVersion" Text="v1.02" 
                                            FontSize="12" Foreground="#888888" 
                                            HorizontalAlignment="Center" Margin="0,4,0,0"/>
                             </StackPanel>

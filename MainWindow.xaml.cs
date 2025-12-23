@@ -12,11 +12,15 @@ namespace ScrollV
         private ScrollVManager? _manager;
         private bool _isRunning = true;
         private LocalizationManager _loc = LocalizationManager.Instance;
+        private SmoothScrollBehavior? _smoothScroll;
 
         public MainWindow()
         {
             InitializeComponent();
             Loaded += MainWindow_Loaded;
+            
+            // Initialize smooth scrolling for the menu
+            _smoothScroll = SmoothScrollBehavior.Attach(ContentScrollViewer);
         }
 
         private void MainWindow_Loaded(object sender, RoutedEventArgs e)
