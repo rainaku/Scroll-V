@@ -37,6 +37,7 @@ namespace ScrollV.Core
         public Dictionary<string, AppSpecificSettings> PerAppSettings { get; set; } = new();
 
         // Excluded applications
+        // Note: IDM (Internet Download Manager) has its own mouse hook that conflicts with smooth scroll
         public List<string> ExcludedApps { get; set; } = new()
         {
             "vlc",
@@ -44,7 +45,11 @@ namespace ScrollV.Core
             "mpc-hc",
             "PotPlayerMini64",
             "photoshop",
-            "illustrator"
+            "illustrator",
+            "idman",           // IDM main process
+            "IDMan",           // IDM alternate casing
+            "idmsettings",     // IDM settings
+            "IEMonitor"        // IDM IE Monitor
         };
 
         private static readonly JsonSerializerOptions JsonOptions = new()

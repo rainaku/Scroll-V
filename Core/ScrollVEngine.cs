@@ -58,6 +58,11 @@ namespace ScrollV.Core
         private bool _isGliding = false;
         private const double GLIDE_TRIGGER_DELAY = 80;
 
+        // Stall detection - handles hook chain delays (e.g., from IDM)
+        private const double MAX_FRAME_TIME = 100;      // If frame takes > 100ms, consider it stalled
+        private const double STALL_RECOVERY_FACTOR = 0.5; // Reduce scroll by 50% after stall to prevent jerk
+        private DateTime _lastFrameTime = DateTime.Now;
+
         public ScrollVEngine()
         {
             // Boost process priority for better hook response
@@ -119,9 +124,25 @@ namespace ScrollV.Core
                 return;
             }
 
+            // Stall detection: if frame took too long (e.g., due to IDM hook chain delay)
+            // reduce the remaining scroll to prevent large jumps when resuming
+            if (deltaTime > MAX_FRAME_TIME)
+            {
+                _remainingScroll *= STALL_RECOVERY_FACTOR;
+                _accumulatedDelta = 0; // Clear accumulated sub-pixel scroll
+                
+                // If scroll is now negligible, stop completely
+                if (Math.Abs(_remainingScroll) < MinVelocityThreshold)
+                {
+                    StopScrolling();
+                    return;
+                }
+            }
+
             // Normalization factor for 120fps (8.33ms)
             // This ensures scrolling speed remains consistent regardless of frame rate
-            double timeFactor = deltaTime / 8.33;
+            // Cap the time factor to prevent huge jumps after stalls
+            double timeFactor = Math.Min(deltaTime / 8.33, 5.0);
 
             // Check glide trigger
             var timeSinceLastInput = (DateTime.Now - _lastScrollTime).TotalMilliseconds;

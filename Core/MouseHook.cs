@@ -71,7 +71,22 @@ namespace ScrollV.Core
         [DllImport("user32.dll")]
         private static extern short GetAsyncKeyState(int vKey);
 
+        [DllImport("user32.dll")]
+        private static extern IntPtr GetForegroundWindow();
+
+        [DllImport("user32.dll", CharSet = CharSet.Auto)]
+        private static extern int GetClassName(IntPtr hWnd, System.Text.StringBuilder lpClassName, int nMaxCount);
+
         private const int VK_CONTROL = 0x11;
+
+        // Known IDM window class names that can cause hook conflicts
+        private static readonly HashSet<string> IDM_WINDOW_CLASSES = new(StringComparer.OrdinalIgnoreCase)
+        {
+            "IEFrame_idm",
+            "IDM_DownloadWindow",
+            "IEFrame",
+            "IDMGrabbedVideo"
+        };
 
         #endregion
 
@@ -161,6 +176,12 @@ namespace ScrollV.Core
 
             // Skip smooth scroll when Ctrl is held (zoom functionality)
             if ((GetAsyncKeyState(VK_CONTROL) & 0x8000) != 0)
+            {
+                return CallNextHookEx(_hookId, nCode, wParam, lParam);
+            }
+
+            // Skip when IDM windows are active to avoid hook chain conflicts
+            if (IsIDMWindowActive())
             {
                 return CallNextHookEx(_hookId, nCode, wParam, lParam);
             }
@@ -260,6 +281,45 @@ namespace ScrollV.Core
                     _processCache.TryRemove(kvp.Key, out _);
                 }
             }
+        }
+
+        /// <summary>
+        /// Check if an IDM window is currently active (foreground).
+        /// IDM has its own mouse hook that can conflict with smooth scrolling.
+        /// </summary>
+        private static bool IsIDMWindowActive()
+        {
+            try
+            {
+                IntPtr foreground = GetForegroundWindow();
+                if (foreground == IntPtr.Zero) return false;
+
+                var className = new System.Text.StringBuilder(256);
+                int result = GetClassName(foreground, className, 256);
+                
+                if (result > 0)
+                {
+                    string classStr = className.ToString();
+                    
+                    // Check against known IDM window classes
+                    if (IDM_WINDOW_CLASSES.Contains(classStr))
+                    {
+                        return true;
+                    }
+                    
+                    // Also check for IDM prefix in class name
+                    if (classStr.StartsWith("IDM", StringComparison.OrdinalIgnoreCase))
+                    {
+                        return true;
+                    }
+                }
+            }
+            catch
+            {
+                // Fail safe - don't block scrolling on error
+            }
+            
+            return false;
         }
 
         public void Dispose()
