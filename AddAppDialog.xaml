@@ -7,7 +7,8 @@
         AllowsTransparency="True"
         Background="Transparent"
         WindowStartupLocation="CenterOwner"
-        ResizeMode="NoResize">
+        ResizeMode="NoResize"
+        Icon="pack://application:,,,/Assets/appicon.ico">
 
     <Border CornerRadius="16" Background="#1A1A2E">
         <Border.Effect>

@@ -11,7 +11,7 @@
         ResizeMode="NoResize"
         ShowInTaskbar="False"
         WindowStartupLocation="CenterScreen"
-        Icon="pack://application:,,,/Assets/icon.ico">
+        Icon="pack://application:,,,/Assets/appicon.ico">
 
     <!-- Window Fade-in Animation -->
     <Window.Triggers>
@@ -222,7 +222,7 @@
     <Grid>
         <!-- System Tray Icon -->
         <tb:TaskbarIcon x:Name="TrayIcon"
-                        IconSource="pack://application:,,,/Assets/icon.ico"
+                        IconSource="pack://application:,,,/Assets/appicon.ico"
                         ToolTipText="Scroll-V"
                         TrayMouseDoubleClick="TrayIcon_TrayMouseDoubleClick">
             <tb:TaskbarIcon.ContextMenu>

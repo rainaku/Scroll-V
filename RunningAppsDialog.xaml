@@ -8,7 +8,8 @@
         Background="Transparent"
         ResizeMode="NoResize"
         ShowInTaskbar="False"
-        WindowStartupLocation="CenterOwner">
+        WindowStartupLocation="CenterOwner"
+        Icon="pack://application:,,,/Assets/appicon.ico">
 
     <Window.Resources>
         <!-- Close Button Style -->

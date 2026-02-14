@@ -12,7 +12,7 @@
     <Authors>rainaku</Authors>
     <Description>Buttery smooth scrolling for all Windows applications</Description>
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <ApplicationIcon>Assets\icon.ico</ApplicationIcon>
+    <ApplicationIcon>Assets\appicon.ico</ApplicationIcon>
     
     <!-- Memory Optimization -->
     <ServerGarbageCollection>false</ServerGarbageCollection>
@@ -37,7 +37,7 @@
 
   <ItemGroup>
     <Resource Include="Fonts\zh-cn.ttf" />
-    <Resource Include="Assets\icon.ico" />
+    <Resource Include="Assets\appicon.ico" />
   </ItemGroup>
 
 </Project>
