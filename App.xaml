@@ -8,7 +8,7 @@
         <!-- Converters -->
         <local:BoolToVisibilityConverter x:Key="BoolToVisibility"/>
         
-        <!-- Custom Font -->
+        <!-- Custom Font -->cd
         <FontFamily x:Key="AppFont">pack://application:,,,/Fonts/#zh-cn</FontFamily>
         
         <!-- Liquid Glass Color Palette -->
