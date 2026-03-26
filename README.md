@@ -31,7 +31,7 @@
 ---
 
 ## ✨ Features
--**NO PAYWALL, SUBCRIPTIONS**
+-**NO PAYWALL, SUBCRIPTIONS
 -**Boost your scrolling experience** - Fluid, natural scroll animation that's easy on the eyes
 -**Prevent RSI** - Scroll acceleration reduces repetitive strain injury risks
 -**Highly Customizable** - Adjust smoothness, speed, friction, glide, and animation curves
