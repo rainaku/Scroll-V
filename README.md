@@ -31,14 +31,14 @@
 ---
 
 ## ✨ Features
-
-- 😍 **Boost your scrolling experience** - Fluid, natural scroll animation that's easy on the eyes
-- 🤞 **Prevent RSI** - Scroll acceleration reduces repetitive strain injury risks
-- ⚙️ **Highly Customizable** - Adjust smoothness, speed, friction, glide, and animation curves
-- 📱 **Per-App Settings** - Exclude specific applications from smooth scrolling (more settings in the future)
-- 🔧 **System Tray** - Runs quietly in the background
-- 🌐 **Bilingual** - Vietnamese and English language support 
-- 💾 **Low Memory** - Optimized RAM usage with auto-cleanup (around 6MB of RAM when running in background)
+-**NO PAYWALL, SUBCRIPTIONS**
+-**Boost your scrolling experience** - Fluid, natural scroll animation that's easy on the eyes
+-**Prevent RSI** - Scroll acceleration reduces repetitive strain injury risks
+-**Highly Customizable** - Adjust smoothness, speed, friction, glide, and animation curves
+-**Per-App Settings** - Exclude specific applications from smooth scrolling (more settings in the future)
+-**System Tray** - Runs quietly in the background
+-**Bilingual** - Vietnamese and English language support 
+-**Low Memory** - Optimized RAM usage with auto-cleanup (around 6MB of RAM when running in background)
 
 ## 📥 Download & Installation
 
